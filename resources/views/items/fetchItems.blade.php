@@ -61,6 +61,15 @@
             </tbody>
         </table>
     </div>
+
+    <div class="listcontainer">
+        <div class="listcontainer--header">
+            <span class="header--title">Todo-List</span>
+            <span class="fa fa-refresh"></span>
+            <span class="fa fa-plus"></span>
+        </div>
+        <div class="listcontainer--content"></div>
+    </div>
 @endsection
 
 @push('scripts')

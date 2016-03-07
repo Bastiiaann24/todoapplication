@@ -26,4 +26,6 @@ elixir(function (mix) {
         'vue-resource.min.js'
     ], 'public/js/vendor.js');
 
+    // Merge app.scss and all includes to one style file
+    mix.sass('app.scss', 'public/styles/styles.css');
 });
