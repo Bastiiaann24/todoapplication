@@ -16,4 +16,17 @@
 //    return \App\Models\Items::all();
 //});
 
-$app->get('/', 'ItemsController');
+$app->get('/', 'ItemsController@index');
+
+//API
+$app->get('api/items', 'ApiItemController@index');
+$app->post('api/items', 'ApiItemController@store');
+
+
+//$app->get('/api/items', function () {
+//    return \App\Models\Items::all();
+//});
+//
+//$app->post('/api/items', function() {
+//    return \App\Models\Items::create(Request::all());
+//});

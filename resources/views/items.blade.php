@@ -1,6 +1,6 @@
 @extends ('app')
 
-@section('content')
+@section('content2')
     @foreach($items as $item)
         {{ $item->title }} <br/>
     @endforeach
