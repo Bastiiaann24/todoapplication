@@ -10,11 +10,10 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
+//$app->get('/', 'ItemsController@getItems');
+//
+//$app->get('/items', function() {
+//    return \App\Models\Items::all();
+//});
 
-$app->get('/', function () use ($app) {
-    return $app->version();
-});
-
-$app->get('/items', function() {
-    return \App\Models\Items::all();
-});
+$app->get('/', 'ItemsController');
