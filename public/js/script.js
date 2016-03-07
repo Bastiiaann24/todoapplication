@@ -1,29 +1,51 @@
 var vm = new Vue({
-    http: {
-        root: '/root',
-        headers: {
-            Authorization: 'Basic YXBpOnBhc3N3b3Jk'
-        }
-    },
-
 
     el: '#ItemsController',
 
     data: {
       newItem: {
+          id: '',
           title: '',
           description: '',
           completed: '',
           order: ''
       },
 
-        success: false
+        success: false,
+        edit: false
     },
 
     methods: {
         fetchItem: function() {
             this.$http.get('/api/items', function (data) {
                 this.$set('items', data);
+            });
+        },
+
+        EditItem: function(id) {
+            var item = this.newItem;
+
+            this.newItem = {title:'', description:'',completed:'',order:'' };
+            this.$http.patch('/api/items/' + id, item);
+            this.fetchItem();
+            this.edit = false;
+            this.fetchItem();
+        },
+
+        RemoveItem: function(id) {
+            var Confirmbox = confirm("Are you sure?");
+            this.$http.delete('/api/items/' + id);
+            this.fetchItem();
+        },
+
+        ShowItem: function (id){
+            this.edit = true;
+            this.$http.get('/api/items/' + id, function (data) {
+                this.newItem.id = data.id;
+                this.newItem.title = data.title;
+                this.newItem.description = data.description;
+                this.newItem.completed = data.completed;
+                this.newItem.order = data.order;
             });
         },
 

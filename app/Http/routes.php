@@ -10,23 +10,14 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-//$app->get('/', 'ItemsController@getItems');
-//
-//$app->get('/items', function() {
-//    return \App\Models\Items::all();
-//});
 
 $app->get('/', 'ItemsController@index');
 
 //API
 $app->get('api/items', 'ApiItemController@index');
 $app->post('api/items', 'ApiItemController@store');
+$app->get('api/items/{id}', 'ApiItemController@show');
+$app->patch('api/items/{id}', 'ApiItemController@update');
+$app->delete('api/items/{id}', 'ApiItemController@destroy');
 
 
-//$app->get('/api/items', function () {
-//    return \App\Models\Items::all();
-//});
-//
-//$app->post('/api/items', function() {
-//    return \App\Models\Items::create(Request::all());
-//});

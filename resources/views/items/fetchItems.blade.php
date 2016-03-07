@@ -30,7 +30,8 @@
 
 
             <div class="form-group">
-                <button :disabled="!isValid" class="btn btn-default" type="submit">Add New Item</button>
+                <button :disabled="!isValid" class="btn btn-default" type="submit" v-if="!edit">Add New Item</button>
+                <button :disabled="!isValid" class="btn btn-default" type="submit" v-if="edit" @click="EditItem(newItem.id)">Edit Item</button>
             </div>
         </form>
 
@@ -53,8 +54,8 @@
                 <td>@{{ item.completed }}</td>
                 <td>@{{ item.order }}</td>
                 <td>
-                    <button class="btn btn-default btn-sm" @click="ShowUser(user.id)">EDIT</button>
-                    <button class="btn btn-danger btn-sm">REMOVE</button>
+                    <button class="btn btn-default btn-sm" @click="ShowItem(item.id)">EDIT</button>
+                    <button class="btn btn-danger btn-sm" @click="RemoveItem(item.id)">REMOVE</button>
                 </td>
             </tr>
             </tbody>
