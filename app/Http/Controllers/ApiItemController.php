@@ -25,7 +25,7 @@ class ApiItemController extends Controller
     public function update(Request $request, $id)
     {
         Items::findOrFail($id)->update($request->all());
-        return Response::json($request->all()); //response()->json()
+        return Response::json($request->all());
     }
 
     public function destroy($id)
