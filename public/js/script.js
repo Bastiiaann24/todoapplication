@@ -25,10 +25,7 @@ var vm = new Vue({
             this.$http.get('/api/items', function (data) {
                 console.log(data);
                 this.$set('items', data);
-                setTimeout(function () {
-                    console.log(vm.items);
-                    this.itemAmount = data.length;
-                }, 2000);
+                this.itemAmount = data.length;
             });
         },
 
@@ -38,11 +35,9 @@ var vm = new Vue({
             this.$http.get('/api/items/' + id, function (data) {
                 if (data.completed == 0) {
                     item = {id: data.id, title: data.title, completed: 1, order: data.order};
-                    //console.log(item);
                 }
                 else {
                     item = {id: data.id, title: data.title, completed: 0, order: data.order};
-                    //console.log(item);
                 }
                 this.$http.patch('/api/items/' + id, item);
 
