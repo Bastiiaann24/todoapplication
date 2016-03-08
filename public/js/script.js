@@ -8,7 +8,6 @@ var vm = new Vue({
         newItem: {
             id: '',
             title: '',
-            description: 'Niet aanwezig',
             completed: '',
             order: ''
         },
@@ -29,7 +28,6 @@ var vm = new Vue({
             //this.$http.get('/api/items/' + id, function (data) {
             //    this.newItem.id = data.id;
             //    this.newItem.title = data.title;
-            //    this.newItem.description = data.description;
             //    this.newItem.completed = data.completed;
             //    this.newItem.order = data.order;
             //});
@@ -46,7 +44,7 @@ var vm = new Vue({
 
             //var item = this.newItem;
             //
-            //this.newItem = {title: '', description: '', completed: '', order: ''};
+            //this.newItem = {title: '',  completed: '', order: ''};
             //
             //this.$http.patch('/api/items/' + id, item);
             //
@@ -56,7 +54,7 @@ var vm = new Vue({
         EditItem: function (id) {
             var item = this.newItem;
 
-            this.newItem = {title: '', description: '', completed: '', order: ''};
+            this.newItem = {title: '', completed: '', order: ''};
             this.$http.patch('/api/items/' + id, item);
             this.edit = false;
             this.fetchItem();
@@ -74,21 +72,23 @@ var vm = new Vue({
             this.$http.get('/api/items/' + id, function (data) {
                 this.newItem.id = data.id;
                 this.newItem.title = data.title;
-                this.newItem.description = data.description;
                 this.newItem.completed = data.completed;
                 this.newItem.order = data.order;
             });
         },
 
         AddNewItem: function () {
+            this.newItem.completed = false;
+            this.newItem.order = 4;
+
             //User input
             var item = this.newItem;
 
-            //Clear form
-            this.newItem = {title: '', description: '', completed: '', order: ''}
-
             //Send post request
             this.$http.post('/api/items', item);
+
+            //Clear form
+            this.newItem = {title: '', completed: '', order: ''}
 
             //Reload page
             this.fetchItem();
@@ -99,8 +99,7 @@ var vm = new Vue({
     computed: {
         validation: function () {
             return {
-                title: !!this.newItem.title.trim(),
-                description: !!this.newItem.description.trim(),
+                title: !!this.newItem.title.trim()
             }
         },
 
