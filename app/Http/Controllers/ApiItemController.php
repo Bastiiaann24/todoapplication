@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 class ApiItemController extends Controller
 {
     public function index() {
-        return Items::all();
+        $items = Items::OrderDescending()->get();
+        return $items;
+//        return Items::all();
     }
 
     public function store(Request $request) {
@@ -25,7 +27,8 @@ class ApiItemController extends Controller
     public function update(Request $request, $id)
     {
         Items::findOrFail($id)->update($request->all());
-        return Response::json($request->all());
+//        return Response::json($request->all());
+//        return Items::all();
     }
 
     public function destroy($id)

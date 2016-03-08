@@ -14,4 +14,8 @@ class Items extends Model
     ];
 
     protected $hidden = ['created_at', 'updated_at'];
+
+    public function scopeOrderDescending($query){
+        return $query->orderBy('order', 'ASC');
+    }
 }

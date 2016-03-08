@@ -1,7 +1,5 @@
-//Vue.use(require('vue-dnd'));
 var vm = new Vue({
 
-    //el: '#ItemsController',
     el: '.listcontainer',
 
     data: {
@@ -12,6 +10,8 @@ var vm = new Vue({
             order: ''
         },
 
+        itemAmount: '',
+
         success: false,
         edit: false
     },
@@ -20,35 +20,28 @@ var vm = new Vue({
         fetchItem: function () {
             this.$http.get('/api/items', function (data) {
                 this.$set('items', data);
+                this.itemAmount = data.length;
             });
         },
 
         EditStatus: function (id) {
-            console.log(id);
-            //this.$http.get('/api/items/' + id, function (data) {
-            //    this.newItem.id = data.id;
-            //    this.newItem.title = data.title;
-            //    this.newItem.completed = data.completed;
-            //    this.newItem.order = data.order;
-            //});
-            this.ShowItem(id);
-            console.log(this.newItem.id);
-
-            if(this.newItem.completed == true) {
-                this.newItem.completed = false;
-            }
-            else {
-                this.newItem.completed = true;
-            }
-            console.log(this.newItem.completed);
-
-            //var item = this.newItem;
-            //
-            //this.newItem = {title: '',  completed: '', order: ''};
-            //
+            this.newItem = {title: '', completed: '', order: ''};
+            var item = '';
+            this.$http.get('/api/items/' + id, function (data) {
+                if (data.completed == 0) {
+                    item = {id: data.id, title: data.title, completed: 1, order: data.order};
+                    console.log(item);
+                }
+                else {
+                    item = {id: data.id, title: data.title, completed: 0, order: data.order};
+                    console.log(item);
+                }
+                this.$http.patch('/api/items/' + id, item);
+            });
+            console.log(this.itemAmount);
+            //console.log(this.newItem.completed);
             //this.$http.patch('/api/items/' + id, item);
-            //
-            //this.fetchItem();
+            this.fetchItem();
         },
 
         EditItem: function (id) {
@@ -79,7 +72,7 @@ var vm = new Vue({
 
         AddNewItem: function () {
             this.newItem.completed = false;
-            this.newItem.order = 4;
+            this.newItem.order = this.itemAmount;
 
             //User input
             var item = this.newItem;
@@ -111,9 +104,7 @@ var vm = new Vue({
         }
     },
 
-    watch: {
-
-    },
+    watch: {},
 
     ready: function () {
         this.fetchItem();
