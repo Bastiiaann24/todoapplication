@@ -12,14 +12,14 @@
         </form>
         <ul>
             <li v-for="item in items">
-                {{--<span class="fa fa-ellipsis-v"></span>--}}
-                <span class="item--title">@{{ item.title }}
+                <span class="fa fa-ellipsis-v"></span>
+                <span class="item--title" v-bind:class=" {done: item.completed}">@{{ item.title }}
                 </span>
                     <input type="checkbox" name="listCheckbox" id="listCheckbox" v-model="item.completed"
                            v-bind:true-value=1
                            v-bind:false-value=0>
                     <label v-model="item.completed" v-on:click="EditStatus(item.id)"></label>
-                <span class="fa fa-remove" @click="RemoveItem(item.id)"></span>
+                <span class="fa fa-trash-o" @click="RemoveItem(item.id)"></span>
             </li>
         </ul>
     </div>
