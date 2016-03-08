@@ -10,8 +10,8 @@
                 <button :disabled="!isValid" type="submit">Add task</button>
             </div>
         </form>
-        <ul>
-            <li v-for="item in items">
+        <ul class="dropArea">
+            <li v-for="item in items" class="dragable" draggable="true" @dragstart="dragstart(item, $event)" @dragend="dragend(item, $event)" @dragenter="dragenter(item)">
                 <span class="fa fa-ellipsis-v"></span>
                 <span class="item--title" v-bind:class=" {done: item.completed}">@{{ item.title }}
                 </span>

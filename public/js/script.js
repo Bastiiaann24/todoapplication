@@ -10,17 +10,25 @@ var vm = new Vue({
             order: ''
         },
 
+        //items: [],
+
         itemAmount: '',
 
         success: false,
-        edit: false
+        edit: false,
+
+        draggingItem: undefined
     },
 
     methods: {
         fetchItem: function () {
             this.$http.get('/api/items', function (data) {
+                console.log(data);
                 this.$set('items', data);
-                this.itemAmount = data.length;
+                setTimeout(function () {
+                    console.log(vm.items);
+                    this.itemAmount = data.length;
+                }, 2000);
             });
         },
 
@@ -30,45 +38,48 @@ var vm = new Vue({
             this.$http.get('/api/items/' + id, function (data) {
                 if (data.completed == 0) {
                     item = {id: data.id, title: data.title, completed: 1, order: data.order};
-                    console.log(item);
+                    //console.log(item);
                 }
                 else {
                     item = {id: data.id, title: data.title, completed: 0, order: data.order};
-                    console.log(item);
+                    //console.log(item);
                 }
                 this.$http.patch('/api/items/' + id, item);
+
+                setTimeout(function () {
+                    vm.fetchItem();
+                }, 200);
             });
-            console.log(this.itemAmount);
-            //console.log(this.newItem.completed);
-            //this.$http.patch('/api/items/' + id, item);
-            this.fetchItem();
         },
 
-        EditItem: function (id) {
-            var item = this.newItem;
-
-            this.newItem = {title: '', completed: '', order: ''};
-            this.$http.patch('/api/items/' + id, item);
-            this.edit = false;
-            this.fetchItem();
-        },
+        //EditItem: function (id) {
+        //    var item = this.newItem;
+        //
+        //    this.newItem = {title: '', completed: '', order: ''};
+        //    this.$http.patch('/api/items/' + id, item);
+        //    this.edit = false;
+        //    this.fetchItem();
+        //},
 
         RemoveItem: function (id) {
             this.$http.delete('/api/items/' + id);
 
             //Reload page
-            this.fetchItem();
+            setTimeout(function () {
+                vm.fetchItem();
+            }, 200);
         },
 
-        ShowItem: function (id) {
-            this.edit = true;
-            this.$http.get('/api/items/' + id, function (data) {
-                this.newItem.id = data.id;
-                this.newItem.title = data.title;
-                this.newItem.completed = data.completed;
-                this.newItem.order = data.order;
-            });
-        },
+        //ShowItem: function (id) {
+        //    this.edit = true;
+        //    this.$http.get('/api/items/' + id, function (data) {
+        //        this.newItem = new newItem
+        //        this.newItem.id = data.id;
+        //        this.newItem.title = data.title;
+        //        this.newItem.completed = data.completed;
+        //        this.newItem.order = data.order;
+        //    });
+        //},
 
         AddNewItem: function () {
             this.newItem.completed = false;
@@ -84,8 +95,37 @@ var vm = new Vue({
             this.newItem = {title: '', completed: '', order: ''}
 
             //Reload page
-            this.fetchItem();
+            setTimeout(function () {
+                vm.fetchItem();
+            }, 200);
         },
+
+        dragstart: function (item, e) {
+            this.draggingItem = item;
+            e.target.style.opacity = 1;
+        },
+
+        dragend: function (item, e) {
+            console.log("ended" + item.order);
+
+            var allItems = vm.items;
+            for (var i = 0; i < allItems.length; i++) {
+                var data = allItems[i];
+                var item = {id: data.id, title: data.title, completed: data.completed, order: data.order};
+                this.$http.patch('/api/items/' + data.id, item);
+            }
+            setTimeout(function () {
+                vm.fetchItem();
+            }, 200);
+        },
+
+        dragenter: function (item) {
+            //console.log(item.order);
+
+            const tempIndex = item.order;
+            item.order = this.draggingItem.order;
+            this.draggingItem.order = tempIndex;
+        }
 
     },
 
@@ -108,5 +148,7 @@ var vm = new Vue({
 
     ready: function () {
         this.fetchItem();
+        //var items = this.fetchItem();
+        //console.log(items);
     }
 });

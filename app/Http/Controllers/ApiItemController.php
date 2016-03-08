@@ -9,13 +9,15 @@ use Illuminate\Http\Request;
 
 class ApiItemController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $items = Items::OrderDescending()->get();
         return $items;
 //        return Items::all();
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         return Items::create($request->all());
     }
 
