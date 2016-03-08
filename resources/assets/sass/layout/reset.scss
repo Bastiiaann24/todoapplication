@@ -1,0 +1,33 @@
+$green: #6C88C7;
+$gray: #ccc;
+$gray-lite: #ededed;
+
+$color-body: $green;
+$color-border: $gray-lite;
+$color-button: $green;
+$color-button-text: white;
+$color-button-disabled: lighten($gray, 10%);
+$color-complete: $gray;
+$color-checkbox: lighten($green, 10%);
+$color-checkbox-checked: $green;
+$color-item: darken($green, 20%);
+
+$margin-element: 24px;
+$font: 'Montserrat', sans-serif;
+@mixin placeholder {
+  &.placeholder { @content; }
+  &:-moz-placeholder { @content; }
+  &::-moz-placeholder { @content; }
+  &::-webkit-input-placeholder { @content; }
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  background: #F0F0F0;
+  color: black;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
